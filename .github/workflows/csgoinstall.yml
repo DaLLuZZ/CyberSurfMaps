@@ -1,0 +1,41 @@
+name: CSGO
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo add-apt-repository multiverse || true
+          sudo dpkg --add-architecture i386 || true
+          sudo apt update || true
+
+      - name: Install Libs
+        run: |
+          sudo apt install lib32gcc1 lib32stdc++6 libc6-i386 libcurl4-gnutls-dev:i386 libsdl2-2.0-0:i386 || true
+
+      - name: Install SteamCmd
+        run: |
+          sudo apt-get install steamcmd || true
+
+      - name: Create Symlink
+        run: |
+          cd ~ ln -s /usr/games/steamcmd steamcmd || true
+
+      - name: Run Steam
+        run: |
+          screen ~/.steam/steamcmd/steamcmd.sh
+          login anonymous
+          force_install_dir ./csgo
+          app_update 730 validate
+          quit
+
+      - name: List
+        run: |
+          Get-ChildItem | tree /f

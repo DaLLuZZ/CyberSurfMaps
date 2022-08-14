@@ -22,19 +22,20 @@ jobs:
 
       - name: Install SteamCmd
         run: |
-          sudo apt-get install steamcmd || true
+          sudo apt-get purge steam steamcmd || true
+          sudo apt-get install steam steamcmd || true
+
+      - name: List
+        run: |
+          Get-ChildItem | tree /f
 
       - name: Create Symlink
         run: |
-          cd ~ ln -s /usr/games/steamcmd steamcmd || true
+          ln -s /usr/games/steamcmd steamcmd || true
 
       - name: Run Steam
         run: |
-          screen ~/.steam/steamcmd/steamcmd.sh
-          login anonymous
-          force_install_dir ./csgo
-          app_update 730 validate
-          quit
+          steamcmd -login anonymous +force_install_dir ./csgo +app_update 730 +quit
 
       - name: List
         run: |

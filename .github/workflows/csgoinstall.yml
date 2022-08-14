@@ -35,7 +35,7 @@ jobs:
 
       - name: Run Steam
         run: |
-          steamcmd -login anonymous +force_install_dir ./csgo +app_update 730 +quit
+          steamcmd -login anonymous +force_install_dir ./csgo +app_update 730 +quit || true
 
       - name: List
         run: |
